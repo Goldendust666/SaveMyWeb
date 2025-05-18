@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}"></title>
+    <style rel="stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        header {
+            background-color: #00abbb;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            box-shadow: 0 4px 8px rgba(76, 157, 175, 0.6);
+        }
+
+        header h1 {
+            margin-left: 1em;
+            font-size: 1.5rem;
+        }
+
+        #menuButton {
+            cursor: pointer;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: white;
+            margin-right: 1em;
+        }
+
+        /* Login form */
+        .form_login {
+            display: flex;
+            align-items: center;
+        }
+
+        .form_login form {
+            display: flex;
+            gap: 0.5em;
+            align-items: center;
+        }
+
+        .form_login input[type="text"],
+        .form_login input[type="password"] {
+            padding: 0.3em;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-log {
+            padding: 0.3em 0.6em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-reg {
+            margin-left: 1em;
+            padding: 0.3em 0.6em;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: 250px;
+            background-color: #00abbb;
+            color: #ecf0f1;
+            position: fixed;
+            top: 0;
+            left: -950px;
+            height: 100%;
+            padding-top: 1em;
+            transition: left 0.3s;
+            box-shadow: 5px 10px 10px rgba(66, 116, 193, 0.5);
+        }
+
+        aside nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 1em;
+        }
+
+        aside nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #closeSidebar {
+            margin-left: 1em;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Modo oscuro */
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+
+        .dark-mode header,
+        .dark-mode #sidebar {
+            background-color: #015e6a;
+        }
+
+        .btn-dark {
+            padding: 0.4em 0.8em;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 2em;
+        }
+        #logoutEnlace{
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            background-color: #ff0000;
+            color: white;
+            opacity: 0.9;
+            transform: translateY(-2px);
+            z-index:-10;
+            box-shadow:  3px 4px 4px rgb(164, 0, 0);
+        }
+                .repositorio-header {
+            background-color: #00abbb;
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .repositorio-header {
+            background-color: #015e6a;
+        }
+
+        .repositorio-item {
+            margin-bottom: 1em;
+        }
+
+        .paginas-container {
+            padding: 1em 2em;
+            background-color: #e8f8fa;
+            border-radius: 5px;
+        }
+
+        .dark-mode .paginas-container {
+            background-color: #2a2a2a;
+        }
+
+        .dark-mode a {
+            color: white !important;
+        }
+         .dark-mode .invitacion-item{
+         background-color: #262626 !important;
+         }
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+
+    </style>
+    </style>
+</head>
+<body>
+<header>
+    <button id="menuButton">☰</button>
+    <h1>SaveMyWeb</h1>
+    <th:block sec:authorize="isAnonymous()">
+        <div class="form_login">
+            <form th:action="@{/login}" method="post">
+                <span th:if="${param.errorLogin}" style="color: red; margin-right: 10px;">Usuario o contraseña no válidos.</span>
+                <input type="text" name="username" placeholder="Username"/>
+                <input type="password" name="password" placeholder="Password"/>
+                <input type="submit" value="Log in" class="btn-log"/>
+            </form>
+            <a href="/register" class="btn-reg">Registrate</a>
+
+        </div>
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+        <div>Bienvenido <span sec:authentication="name"></span>
+            <a href="#" id="logoutEnlace" onclick="document.getElementById('formLogOut').submit()">Cerrar Sesión</a>
+            <form th:action="@{/logout}" method="post" id="formLogOut">    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /></form> </div>
+    </th:block>
+</header>
+
+<aside id="sidebar">
+    <button id="closeSidebar">✖</button>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/misrepositorios}">Mis Repositorios</a>
+        <a href="/pagina/mispaginas">📄 Mis páginas</a>
+        <a th:href="@{/invitaciones}">📨 Mis invitaciones</a>
+        <button id="toggleDarkMode" class="btn-dark">Modo oscuro</button>
+    </nav>
+</aside>
+<main style="padding: 2em;">
+    <section style="padding: 2em;">
+
+        <h2>Repositorios a los que estás invitado</h2>
+
+        <div th:if="${repositoriosInvitado.empty}">
+            <p>No tienes invitaciones a repositorios.</p>
+        </div>
+
+        <div th:each="repositorio, iterStat : ${repositoriosInvitado.content}" class="repositorio-item" style="margin-bottom: 1em;">
+            <div class="repositorio-header"
+                 th:onclick="'togglePaginas(' + ${iterStat.index} + ')'">
+                <h2 th:text="${repositorio.nombre}" style="color: white;"></h2>
+                <span th:id="'arrow-' + ${iterStat.index}" style="font-size: 1em; color: white;">&#x25B6;</span>
+            </div>
+            <div th:id="'paginas-' + ${iterStat.index}" class="paginas-container" style="display: none; padding: 10px;padding-left: 30px;">
+                <p th:if="${#lists.isEmpty(repositorio.paginas)}">Este repositorio no contiene páginas.</p>
+                <ul th:if="${!#lists.isEmpty(repositorio.paginas)}">
+                    <li th:each="pagina : ${repositorio.paginas}">
+                        <a th:href="@{'/pagina/ver/' + ${pagina.id}}" th:text="${pagina.nombre}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div>
+        <span th:if="${repositoriosInvitado.hasPrevious()}" >
+            <a th:href="@{/invitaciones(page=${repositoriosInvitado.number - 1})}">Anterior</a>
+        </span>
+            <span th:text="'Página ' + ${repositoriosInvitado.number + 1} + ' de ' + ${repositoriosInvitado.totalPages}"></span>
+            <span th:if="${repositoriosInvitado.hasNext()}">
+            <a th:href="@{/invitaciones(page=${repositoriosInvitado.number + 1})}">Siguiente</a>
+        </span>
+        </div>
+
+        <hr style="margin: 2em 0;">
+
+        <h2>Invitaciones enviadas</h2>
+
+        <div th:if="${invitacionesEnviadas.empty}">
+            <p>No has enviado ninguna invitación.</p>
+        </div>
+
+        <div th:each="invitacion : ${invitacionesEnviadas.content}" class="invitacion-item" style="margin-bottom: 1em; background-color: #ddd; padding: 1em; border-radius: 8px;">
+            <strong>Repositorio:</strong> <span th:text="${invitacion.repositorio.nombre}"></span>
+            <strong>Destinatario:</strong> <span th:text="${invitacion.destinatario.email}"></span>
+            <form th:action="@{'/invitaciones/eliminar/' + ${invitacion.id}}" method="post" style="margin-top: 0.5em; display:inline;">
+                <button type="submit" style="background-color: red; color: white; border: none; padding: 0.5em 1em; border-radius: 5px; cursor: pointer;">Eliminar</button>
+            </form>
+
+        </div>
+
+        <div>
+        <span th:if="${invitacionesEnviadas.hasPrevious()}" >
+            <a th:href="@{/invitaciones(page=${invitacionesEnviadas.number - 1})}">Anterior</a>
+        </span>
+            <span th:text="'Página ' + ${invitacionesEnviadas.number + 1} + ' de ' + ${invitacionesEnviadas.totalPages}"></span>
+            <span th:if="${invitacionesEnviadas.hasNext()}">
+            <a th:href="@{/invitaciones(page=${invitacionesEnviadas.number + 1})}">Siguiente</a>
+        </span>
+        </div>
+
+    </section>
+</main>
+    <script>
+        function togglePaginas(index) {
+            const paginas = document.getElementById('paginas-' + index);
+            const arrow = document.getElementById('arrow-' + index);
+            if (paginas.style.display === 'none') {
+                paginas.style.display = 'block';
+                arrow.innerHTML = '&#x25BC;';
+            } else {
+                paginas.style.display = 'none';
+                arrow.innerHTML = '&#x25B6;';
+            }
+        }
+
+    function togglePaginas(index) {
+        const paginas = document.getElementById('paginas-' + index);
+        const arrow = document.getElementById('arrow-' + index);
+        const isVisible = paginas.style.display !== 'none';
+        paginas.style.display = isVisible ? 'none' : 'block';
+        arrow.innerHTML = isVisible ? '&#x25B6;' : '&#x25BC;';
+    }
+
+    const menuButton = document.getElementById('menuButton');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const toggleDarkMode = document.getElementById('toggleDarkMode');
+
+    menuButton.addEventListener('click', () => {
+        sidebar.style.left = '0';
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.style.left = '-950px';
+    });
+
+
+    // Restaurar modo oscuro al cargar (si estaba activado)
+    if (localStorage.getItem('dark-mode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Toggle y guardado de modo oscuro
+    toggleDarkMode.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('dark-mode', isDark);
+    });
+</script>
+</body>
+</html>

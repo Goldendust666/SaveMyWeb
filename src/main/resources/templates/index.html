@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}"></title>
+    <link rel="stylesheet" th:href="@{/css/mainstyles.css}">
+<style >        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        header {
+            background-color: #00abbb;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            box-shadow: 0 4px 8px rgba(76, 157, 175, 0.6);
+        }
+
+        header h1 {
+            margin-left: 1em;
+            font-size: 1.5rem;
+        }
+
+        #menuButton {
+            cursor: pointer;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: white;
+            margin-right: 1em;
+        }
+
+        /* Login form */
+        .form_login {
+            display: flex;
+            align-items: center;
+        }
+
+        .form_login form {
+            display: flex;
+            gap: 0.5em;
+            align-items: center;
+        }
+
+        .form_login input[type="text"],
+        .form_login input[type="password"] {
+            padding: 0.3em;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-log {
+            padding: 0.3em 0.6em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-reg {
+            margin-left: 1em;
+            padding: 0.3em 0.6em;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: 250px;
+            background-color: #00abbb;
+            color: #ecf0f1;
+            position: fixed;
+            top: 0;
+            left: -950px;
+            height: 100%;
+            padding-top: 1em;
+            transition: left 0.3s;
+            box-shadow: 5px 10px 10px rgba(66, 116, 193, 0.5);
+        }
+
+        aside nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 1em;
+        }
+
+        aside nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #closeSidebar {
+            margin-left: 1em;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+.repositorio-item {
+    margin-bottom: 1em;
+}
+
+.repositorio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00abbb;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.repositorio-header h2 {
+    color: white;
+}
+
+.repositorio-header span {
+    font-size: 1.5em;
+    color: white;
+}
+
+.paginas-container {
+    display: none;
+    padding: 10px;
+}
+
+.paginacion {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+/* Versión en modo oscuro */
+.dark-mode .repositorio-header {
+    background-color: #015e6a;
+}
+
+.dark-mode .repositorio-header h2,
+.dark-mode .repositorio-header span {
+    color: white;
+}
+
+        /* Modo oscuro */
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+
+        .dark-mode header,
+        .dark-mode #sidebar {
+            background-color: #015e6a;
+        }
+                .dark-mode #repositorio-item {
+            background-color: #015e6a;
+        }
+                        .dark-mode #repositorio-item {
+            background-color: #015e6a;
+        }
+
+        .btn-dark {
+            padding: 0.4em 0.8em;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 2em;
+        }
+        #logoutEnlace{
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            background-color: #ff0000;
+            color: white;
+            opacity: 0.9;
+            transform: translateY(-2px);
+            z-index:-10;
+            box-shadow:  3px 4px 4px rgb(164, 0, 0);
+        }
+    .dark-mode .repositorio-item {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 0.5em;
+}
+.dark-mode .paginas-container {
+    background-color: #1a1a1a;
+    border-top: 1px solid #444;
+}
+.dark-mode .paginas-container a {
+    color: #9cd9ef;
+}
+    .btn-ayuda {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.dialog-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.dialog-content {
+    background-color: white;
+    padding: 2em;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+.btn-cerrar {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Dark mode dialog */
+.dark-mode .dialog-content {
+    background-color: #2c2c2c;
+    color: #f5f5f5;
+}
+ a {
+color: black;
+text-decoration: none;
+}
+
+        .dark-mode a {
+            color: white !important;
+        }
+</style>
+</head>
+<body>
+<header>
+    <button id="menuButton">☰</button>
+    <h1>SaveMyWeb</h1>
+    <th:block sec:authorize="isAnonymous()">
+        <div class="form_login">
+            <form th:action="@{/login}" method="post">
+                <span th:if="${param.errorLogin}" style="color: red; margin-right: 10px;">Usuario o contraseña no válidos.</span>
+                <input type="text" name="username" placeholder="Username"/>
+                <input type="password" name="password" placeholder="Password"/>
+                <input type="submit" value="Log in" class="btn-log"/>
+            </form>
+            <a href="/register" class="btn-reg">Registrate</a>
+
+        </div>
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+        <div>Bienvenido <span sec:authentication="name"></span>
+            <a href="#" id="logoutEnlace" onclick="document.getElementById('formLogOut').submit()">Cerrar Sesión</a>
+            <form th:action="@{/logout}" method="post" id="formLogOut"></form> </div>
+    </th:block>
+</header>
+
+<aside id="sidebar">
+    <button id="closeSidebar">✖</button>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <th:block sec:authorize="isAuthenticated()">
+        <a th:href="@{/misrepositorios}">Mis Repositorios</a>
+        <a href="/pagina/mispaginas">📄 Mis páginas</a>
+        </th:block>
+        <button id="toggleDarkMode" class="btn-dark">Modo oscuro</button>
+    </nav>
+</aside>
+
+<main>
+    <!-- Botón de ayuda -->
+    <button id="ayudaBtn" class="btn-ayuda">❓ Ayuda</button>
+
+    <!-- Diálogo de ayuda -->
+    <div id="ayudaDialog" class="dialog-overlay">
+        <div class="dialog-content">
+            <h3>Información importante</h3>
+            <p>
+                Nuestro servicio de SaveMyWeb es específico para solo guardar código HTML, CSS y JavaScript.
+                Si quieres utilizar imágenes u otros recursos de páginas que se hayan "bajado", asegúrate de que estén alojadas en un servidor externo o incrustadas en base64.
+                Ademas, si el usuario no tiene conexión, las imágenes no se verán.
+            </p>
+            <button onclick="cerrarDialogo()" class="btn-cerrar">Cerrar</button>
+        </div>
+    </div>
+
+    <div th:if="${repositorios.empty}">
+        <p>No hay repositorios disponibles.</p>
+    </div>
+
+    <div th:each="repositorio, iterStat : ${repositorios.content}" class="repositorio-item" style="margin-bottom: 1em;">
+        <div class="repositorio-header"
+             th:onclick="'togglePaginas(' + ${iterStat.index} + ')'">
+            <h2 th:text="${repositorio.nombre}" style="color: white;"></h2>
+            <span th:id="'arrow-' + ${iterStat.index}" style="font-size: 1em; color: white;">&#x25B6;</span> <!-- Flecha ▶ -->
+        </div>
+
+
+        <div th:id="'paginas-' + ${iterStat.index}" class="paginas-container" style="display: none; padding: 10px;padding-left: 30px;">
+            <p th:if="${#lists.isEmpty(repositorio.paginas)}">Este repositorio no contiene páginas.</p>
+            <ul th:if="${!#lists.isEmpty(repositorio.paginas)}">
+                <li th:each="pagina : ${repositorio.paginas}">
+                    <a th:href="@{'/pagina/ver/' + ${pagina.id}}" th:text="${pagina.nombre}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="paginacion" style="margin-top: 2em; display: flex; justify-content: center; gap: 1em;">
+        <a th:if="${repositorios.hasPrevious()}" th:href="@{|?page=${repositorios.number - 1}|}">&laquo; Anterior</a>
+        <span>Página <span th:text="${repositorios.number + 1}"></span> de <span th:text="${repositorios.totalPages}"></span></span>
+        <a th:if="${repositorios.hasNext()}" th:href="@{|?page=${repositorios.number + 1}|}">Siguiente &raquo;</a>
+    </div>
+
+
+
+</main>
+
+<script>
+    const menuButton = document.getElementById('menuButton');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const toggleDarkMode = document.getElementById('toggleDarkMode');
+
+    // Mostrar sidebar
+    menuButton.addEventListener('click', () => {
+        sidebar.style.left = '0';
+    });
+
+    // Ocultar sidebar
+    closeSidebar.addEventListener('click', () => {
+        sidebar.style.left = '-950px';
+    });
+
+    // Restaurar modo oscuro al cargar (si estaba activado)
+    if (localStorage.getItem('dark-mode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Toggle y guardado de modo oscuro
+    toggleDarkMode.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('dark-mode', isDark);
+    });
+
+    // Función para mostrar/ocultar páginas del repositorio y cambiar flecha
+    function togglePaginas(index) {
+        const contenedor = document.getElementById('paginas-' + index);
+        const arrow = document.getElementById('arrow-' + index);
+
+        const visible = contenedor.style.display === 'block';
+        contenedor.style.display = visible ? 'none' : 'block';
+        arrow.innerHTML = visible ? '&#x25B6;' : '&#x25BC;'; // ▶ / ▼
+    }
+    // Mostrar el diálogo
+document.getElementById('ayudaBtn').addEventListener('click', () => {
+    document.getElementById('ayudaDialog').style.display = 'flex';
+});
+
+// Cerrar el diálogo
+function cerrarDialogo() {
+    document.getElementById('ayudaDialog').style.display = 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+Cosimo aqui
+         <!--th:style="'background-image: url(/imagesAnuncios/' + ${anuncio.fotos[0].nombre} + ');'">-->
+         Esto es para que salga una sola imagen
+
+
+
+
+
+
+
+
+

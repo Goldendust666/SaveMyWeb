@@ -1,0 +1,197 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        header {
+            background-color: #00abbb;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            box-shadow: 0 4px 8px rgba(76, 157, 175, 0.6);
+        }
+
+        header h1 {
+            margin-left: 1em;
+            font-size: 1.5rem;
+        }
+
+        #menuButton {
+            cursor: pointer;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: white;
+            margin-right: 1em;
+        }
+
+        /* Login form */
+        .form_login {
+            display: flex;
+            align-items: center;
+        }
+
+        .form_login form {
+            display: flex;
+            gap: 0.5em;
+            align-items: center;
+        }
+
+        .form_login input[type="text"],
+        .form_login input[type="password"] {
+            padding: 0.3em;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-log {
+            padding: 0.3em 0.6em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-reg {
+            margin-left: 1em;
+            padding: 0.3em 0.6em;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: 250px;
+            background-color: #00abbb;
+            color: #ecf0f1;
+            position: fixed;
+            top: 0;
+            left: -950px;
+            height: 100%;
+            padding-top: 1em;
+            transition: left 0.3s;
+            box-shadow: 5px 10px 10px rgba(66, 116, 193, 0.5);
+        }
+
+        aside nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 1em;
+        }
+
+        aside nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #closeSidebar {
+            margin-left: 1em;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+.repositorio-item {
+    margin-bottom: 1em;
+}
+
+.repositorio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00abbb;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.repositorio-header h2 {
+    color: white;
+}
+
+.repositorio-header span {
+    font-size: 1.5em;
+    color: white;
+}
+
+.paginas-container {
+    display: none;
+    padding: 10px;
+}
+
+.paginacion {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+/* Versión en modo oscuro */
+.dark-mode .repositorio-header {
+    background-color: #015e6a;
+}
+
+.dark-mode .repositorio-header h2,
+.dark-mode .repositorio-header span {
+    color: white;
+}
+
+        /* Modo oscuro */
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+        }
+
+        .dark-mode header,
+        .dark-mode #sidebar {
+            background-color: #015e6a;
+        }
+                .dark-mode #repositorio-item {
+            background-color: #015e6a;
+        }
+                        .dark-mode #repositorio-item {
+            background-color: #015e6a;
+        }
+
+        .btn-dark {
+            padding: 0.4em 0.8em;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 2em;
+        }
+        #logoutEnlace{
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            background-color: #ff0000;
+            color: white;
+            opacity: 0.9;
+            transform: translateY(-2px);
+            z-index:-10;
+            box-shadow:  3px 4px 4px rgb(164, 0, 0);
+        }
+    </style>
