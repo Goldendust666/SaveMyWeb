@@ -274,7 +274,7 @@
         <div th:each="invitacion : ${invitacionesEnviadas.content}" class="invitacion-item" style="margin-bottom: 1em; background-color: #ddd; padding: 1em; border-radius: 8px;">
             <strong>Repositorio:</strong> <span th:text="${invitacion.repositorio.nombre}"></span>
             <strong>Destinatario:</strong> <span th:text="${invitacion.destinatario.email}"></span>
-            <form th:action="@{'/invitaciones/eliminar/' + ${invitacion.id}}" method="post" style="margin-top: 0.5em; display:inline;">
+            <form th:action="@{'/invitaciones/eliminar/' + ${invitacion.id}}" method="post" style="margin-top: 0.5em; display:inline;"  onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta invitación?')">
                 <button type="submit" style="background-color: red; color: white; border: none; padding: 0.5em 1em; border-radius: 5px; cursor: pointer;">Eliminar</button>
             </form>
 
